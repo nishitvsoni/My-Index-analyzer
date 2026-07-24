@@ -246,9 +246,7 @@ def send_telegram_message(text):
     # plain text means this can never fail for that reason again.
     plain_text = text.replace("*", "").replace("_", "")
     resp = requests.post(url, json={"chat_id": chat_id, "text": plain_text}, timeout=15)
-    if not resp.ok:
-        print("Telegram error response:", resp.text)
-    resp.raise_for_status()
+    if not resp.ok: raise RuntimeError("Telegram API error " + str(resp.status_code) + ": " + resp.text)
     return resp.json()
 
 
